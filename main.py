@@ -11,8 +11,6 @@ if __name__ == "__main__":
 
     api = tweepy.API(auth)
 
-    # ツイート
-    #api.update_status("Hello World!")
-
     func = function.mode(api)
-    func.parrot_return()
+    #func.parrot_return()
+    func.word_data()
