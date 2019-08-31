@@ -12,6 +12,7 @@ if __name__ == "__main__":
     api = tweepy.API(auth)
 
     func = function.mode(api)
+    func.debug()
     #func.parrot_return()
-    #func.word_data()
-    func.make_img()
+    func.most_words()
+    #func.make_img()
