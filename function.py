@@ -1,5 +1,8 @@
 from datetime import timedelta # 日本時間に直すために使う
 import MeCab
+import cv2
+import numpy as np
+import os
 
 class mode:
     def __init__(self, api):
@@ -25,6 +28,14 @@ class mode:
 
         self.api.update_status(status="@nsd244" + "\n".join(map(str, reply)), in_reply_to_status_id=nsdtweet[0].id)
 
+    def make_img(self):
+        nsdtweet = self.api.user_timeline(screen_name="@nsd244", count=2)
+
+        height = 300; width = 200
+        blank = np.zeros((height, width, 3))
+        cv2.imwrite('sample.png',blank)
+        self.api.update_with_media(status="@nsd244\n 画像作成して送信", in_reply_to_status_id=nsdtweet[1].id, filename="sample.png")
+
 
     def parrot_return(self):
         nsdtweet = self.api.user_timeline(screen_name="@nsd244", count=2)
@@ -40,7 +51,7 @@ class mode:
             #print("概要\t", status.user.description)
             print("-"*30)
 
-        self.api.update_status(status="@nsd244 \n" + nsdtweet[0].text, in_reply_to_status_id=nsdtweet[0].id)    # 最新のtweetをオウム返し
+        #self.api.update_status(status="@nsd244 \n" + nsdtweet[0].text, in_reply_to_status_id=nsdtweet[0].id)    # 最新のtweetをオウム返し
 
     def send_media(self):
         self.api.update_status(status="@nsd244 \n" + self.word_data(), in_reply_to_status_id=nsdtweet[0].id)

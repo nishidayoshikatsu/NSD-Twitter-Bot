@@ -13,4 +13,5 @@ if __name__ == "__main__":
 
     func = function.mode(api)
     #func.parrot_return()
-    func.word_data()
+    #func.word_data()
+    func.make_img()
