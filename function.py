@@ -11,6 +11,7 @@ import os
 class mode:
     def __init__(self, api):
         self.api = api
+        self.dictionary = ["0", "RT", "さん", "くん"]
 
     def debug(self):    # @nsd244の最近のツイート情報の取得メソッド
         nsdtweet = self.api.user_timeline(screen_name="@nsd244", count=2)
@@ -53,15 +54,19 @@ class mode:
         for word, cnt in counter.most_common(10):
             out.append("単語：" + word + ", 出現回数:" + str(cnt) + "\n")
 
-        self.api.update_status(status="@nsd244" + "\n".join(map(str, out)), in_reply_to_status_id=nsdtweet[1].id)
+        self.api.update_status(status="@nsd244" + "\n".join(map(str, out)), in_reply_to_status_id=nsdtweet[0].id)
 
     def send_media(self):
         nsdtweet = self.api.user_timeline(screen_name="@nsd244", count=2)
 
         height = 300; width = 200
-        blank = np.zeros((height, width, 3))
-        cv2.imwrite('sample.png',blank)
-        self.api.update_with_media(status="@nsd244\n 画像作成して送信", in_reply_to_status_id=nsdtweet[1].id, filename="sample.png")
+        img = np.zeros((height, width, 3))
+        img += 255    # 背景は白にする
+        message = "Hello NSD Bot!"; position = (50,50); b,g,r,a = 0,255,0,0 #B(青)・G(緑)・R(赤)・A(透明度)
+        cv2.putText(img, message, position, cv2.FONT_HERSHEY_SIMPLEX, 0.3, (b,g,r), 1, cv2.LINE_AA)
+        img = cv2.circle(img,(200,63), 33, (0,0,255), -1)
+        cv2.imwrite('sample.png', img)
+        self.api.update_with_media(status="@nsd244\n 画像作成して送信", in_reply_to_status_id=nsdtweet[0].id, filename="sample.png")
 
 
     def parrot_return(self):

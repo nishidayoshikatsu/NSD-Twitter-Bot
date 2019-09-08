@@ -15,4 +15,4 @@ if __name__ == "__main__":
     func.debug()
     #func.parrot_return()
     func.most_words()
-    #func.make_img()
+    #func.send_media()
